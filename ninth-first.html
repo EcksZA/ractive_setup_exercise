@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ninth - First</title>
+</head>
+<body>
+
+	<h1>Ninth - First</h1>
+
+	<div id='element'></div>
+
+	<script id='template' type="text/ractive">
+		<p>{{sentence}}</p>
+		<label>
+			Enter a sentence:
+			<input type='text' value='{{sentence}}'>
+		</label>
+	</script>
+
+	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+	<script>
+		ractive = new Ractive({
+			el: '#element',
+			template: '#template'
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tenth - First</title>
+</head>
+<body>
+	<h2>To-do list</h2>
+
+	<div id='element'></div>
+
+	<script id='template' type="text/ractive">
+		<input on-change='newTodo' on-enter='blur' placeholder='What needs to be done?'>
+
+		<ul class='todos'>
+			{{#each items:i}}
+				<li class='{{ done ? "done" : "pending"}}'>
+					<input type='checkbox' checked='{{done}}'>
+					<span class='description' on-click='edit'>
+						{{description}}
+
+						{{#if editing}}
+							<input class='edit' value='{{description}}' on-blur='stop_editing'>
+						{{/if}}
+					</span>
+					<span class='button' on-click='remove'>x</span>
+				</li>
+			{{/each}}
+		</ul>
+	</script>
+
+	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+	<script>
+		var TodoList = Ractive.extend({
+			template: '#template',
+
+			partials: {},
+
+			addItem: function( description ) {
+				this.push('items', {
+					description: description,
+					done: false
+				});
+			},
+
+			removeItem: function(index) {
+				var self = this, keydownHandler, blurHandler, input, currentDescription;
+
+				currentDescription = this.get('items.' + index + '.description');
+				this.set('items.' + index + '.editing', true);
+
+				input = this.find('.edit');
+				input.select();
+
+				window.addEventListener('keydown', keydownHandler = function(event) {
+					switch(event.which) {
+						case 13:
+							input.blur();
+							break;
+
+						case 27:
+							input.value = currentDescription;
+							self.set('items.' + index + '.description', currentDescription);
+							input.blur();
+							break;
+
+						case 9:
+							event.preventDefault();
+							input.blur();
+							self.editItem((index + 1) % self.get('items').length);
+							break;
+					}
+				});
+			},
+
+			init: function(options) {
+				var self = this;
+
+				this.on({
+					remove: function(event){
+						this.removeItem(event.index.i);
+					},
+					newTodo: function(event) {
+						this.addItem(event.node.value);
+						event.node.value = '';
+						setTimeout(function(){
+							event.node.focus();
+						}, 0);
+					},
+					edit: function(event){
+						this.editItem(event.index.i);
+					},
+					stop_editing: function(event){
+						this.set(event.keypath + '.editing', false);
+					},
+					blur: function(event) {
+						event.node.blur();
+					}
+				});
+			},
+
+			//for IE only
+			events: {
+				enter: function(node, fire) {
+					var keydownHandler = function(event) {
+						var which = event.which || event.keyCode;
+						which === 13 && fire({ node: node, original: event });
+					};
+
+					node.addEventListener('keydown', keydownHandler);
+
+					return {
+						teardown: function() {
+							node.removeEventListener('keydown', keydownHandler);
+						}
+					};
+				}
+			}
+		});
+
+		var ractive = new TodoList({
+			el: '#element',
+			data: {
+				items: [
+					{ done: true, description: 'Add a todo item' },
+					{ done: false, description: 'Add some more todo items' },
+					{ done: false, description: 'Complete all the ractive tutorials'}
+				]
+			}
+		});
+	</script>
+
+</body>
+</html>

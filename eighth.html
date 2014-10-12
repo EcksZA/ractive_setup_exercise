@@ -1,0 +1,42 @@
+<div class='slideshow'>
+  <div class='main'>
+    <a class='prev' on-tap='goto:{{current-1}}'><span>&laquo;</span></a>
+    <div class='main-image' style='background-image: url({{image.src}});'></div>
+    <a class='next' on-tap='goto:{{current+1}}'><span>&raquo;</span></a>
+  </div>
+
+  <div class='caption'>
+    <p>{{image.caption}}</p>
+  </div>
+</div>
+
+<script>
+var Slideshow = Ractive.extend({
+  template: template,
+  goto: function(imageNum) {
+      var images = this.get('images';
+        while(imageNum < 0) {
+          imageNum += images.length;
+        }
+        imageNum %= images.length;
+        this.set({
+              image: images[imageNum],
+              current: imageNum
+            });
+  },
+  init: function(options){
+    this.on('goto', function(event, index) {
+      this.goto(index);
+    });
+    this.goto(0);
+  }
+});
+
+var slideshow = new Slideshow({
+  el: output,
+  data: {
+    images: images
+  }
+});
+
+</script>

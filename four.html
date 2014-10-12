@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fourth</title>
+</head>
+<body>
+	<h1>Fourth</h1>
+
+	<div id='element'></div>
+
+	<script id='template' type="text/ractive">
+		<button on-click='activate'>Activate!</button>
+		<button on-click='deactivate'>Deactivate!</button>
+		<button on-click='silence'>Silence!</button>
+	</script>
+
+	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+	<script>
+		var ractive = new Ractive({
+			el: '#element',
+			template: '#template',
+		});
+
+		var listener = ractive.on({
+			activate: function(){
+				alert('ACTIVATE!');
+			},
+			deactivate: function() {
+				alert('DEACTIVATE');
+			},
+			silence: function(){
+				listener.cancel();
+			}
+		});
+	</script>
+
+</body>
+</html>

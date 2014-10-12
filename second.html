@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Second</title>
+</head>
+<body>
+	<div id='element'></div>
+
+	<script id='template' type="text/ractive">
+		{{#with country}}
+			<p>The {{name}} is a {{climate.temperature}} country with {{climate.rainfall}} and a population of {{population}}</p>
+			<p>The capital city is {{capital.name}}</p>
+		{{/with}}
+	</script>
+
+	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+	<script>
+		ractive = new Ractive({
+			el: '#element',
+			template: '#template',
+			data: {
+				country: {
+					name: 'The UK',
+					climate: {
+						temperature: 'cold',
+						rainfall: 'excessive'
+					},
+					population: 63230000,
+					capital: {
+						name: 'London'
+					}
+				}
+			}
+		});
+	</script>
+
+</body>
+</html>

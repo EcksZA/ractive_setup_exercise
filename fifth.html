@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fifth</title>
+</head>
+<body>
+	<h1>Fifth</h1>
+
+	<div id='element'></div>
+
+	<script id='template' type="text/ractive">
+		{{#if signIn}}
+			<p>Welcome back {{name}}!</p>
+		{{else}}
+			<p>Please <a class='button' on-click='signIn'>sign</a> in</p>
+		{{/if}}
+	</script>
+
+	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+	<script>
+		var ractive = new Ractive({
+			el: '#element',
+			template: '#template',
+			data: {
+				signIn: false
+			}
+		});
+
+		ractive.on('signIn', function() {
+			var name = prompt('Sign in with your name','');
+
+			ractive.set({
+				name: name,
+				signIn: true
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Seventh</title>
+</head>
+<body>
+	<h1>Seventh</h1>
+	
+	<div id='element'></div>
+
+	<script id='template' type="text/ractive">
+		<p>This is a normal mustache: {{content}}</p>
+		<p>This is a triple mustache: {{{content}}}</p>
+	</script>
+
+	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+	<script>
+		var ractive = new Ractive({
+			el: '#element',
+			template: '#template',
+			data: {
+				content: '<strong>Spot the difference?</strong>'
+			}
+		});
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+ 	<title>Third</title>
+ </head>
+ <body>
+ 	<h1>Third</h1>
+
+ 	<div id='element'></div>
+ 		
+ 	<script id='template' type="text/ractive">
+ 		<p>red:</p>
+ 		<div style='background-color: red; height: 20px; width: {{red * 100}}%;'></div>
+
+ 		<p>green:</p>
+ 		<div style='background-color: green; height: 20px; width: {{green * 100}}%;'></div>
+
+ 		<p>blue:</p>
+ 		<div style='background-color: blue; height: 20px; width: {{blue * 100}}%;'></div>
+
+ 		<p><strong>result:</strong></p>
+ 		<div style='background-color: rgb(
+ 			{{Math.floor(red * 255)}},
+ 			{{Math.floor(green * 255)}},
+ 			{{Math.floor(blue * 255)}});
+ 			height: 20px; width: 100%;'></div>
+ 	</script>
+
+ 	<script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
+
+ 	<script>
+ 		var ractive = new Ractive({
+ 			el: '#element',
+ 			template: '#template',
+ 			data: {
+ 				red: 0.5,
+ 				blue: 0.5,
+ 				green: 0.5
+ 			}
+ 		})
+ 	</script>
+
+ 	<script>
+ 		ractive.animate({
+ 			red: 0.1,
+ 			green: 0.7,
+ 			blue: 0.4
+ 		});
+ 	</script>
+
+ </body>
+ </html>
